@@ -1,18 +1,38 @@
 name: "sample workflow"
 on: push
 jobs:
-  dep1:
+  lint:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "dep 1"
-  dep2:
+      - run: echo "lint"
+  build_comp_A:
+    needs: 
+      - lint
     runs-on: ubuntu-latest
     steps:
-      - run: "echo dep 2"
-  test:
+      - run: echo "build component A"
+  build_comp_B:
     needs:
-      - dep1  
-      - dep2
+      - lint
     runs-on: ubuntu-latest
     steps:
-      - run: echo "test"
+      - run: echo "build component B"
+  test_comp_A:
+    needs:
+      - build_comp_A
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "test component A"
+  test_comp_B:
+    needs:
+      - build_comp_B
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "test component B"
+  integration:
+    needs:
+      - test_comp_A
+      - test_comp_B
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "integration"
