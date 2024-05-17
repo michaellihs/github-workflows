@@ -1,0 +1,19 @@
+name: "sample workflow"
+on: push
+jobs:
+  dep1:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "dep 1"
+  dep2:
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - run: "echo dep 2"
+  test:
+    needs:
+      - dep1  
+      - dep2
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "test"
