@@ -6,7 +6,6 @@ jobs:
     steps:
       - run: echo "dep 1"
   dep2:
-    needs: setup
     runs-on: ubuntu-latest
     steps:
       - run: "echo dep 2"
